@@ -1,0 +1,31 @@
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    width: $container-big;
+    box-sizing: border-box;
+}
+
+@media (max-width: $device-point) {
+    .container {
+        width: $container;
+    }
+}
+
+@media (max-width: $small-device-point) {
+    .container {
+        width: $container-small;
+    }
+}
+
+@media (max-width: $tablet-point) {
+    .container {
+        width: $container-table;
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: $mobile-point) {
+    .container {
+        width: 100%;
+    }
+}

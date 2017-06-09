@@ -1,0 +1,42 @@
+@import "./../../scss/_variables.scss";
+@import "./../../modules/product-preview/_product-preview.scss";
+
+.catalog-list {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid $gray;
+
+    &__product-preview {
+        min-width: 50%;
+        width: 50%;
+        box-sizing: border-box;
+        border-bottom: 1px solid $gray;
+
+        &:nth-child(odd) {
+            border-right: 1px solid $gray;
+        }
+
+        &_without-border {
+            border-bottom: 1px solid transparent;
+        }
+    }
+}
+
+@media (max-width: $tablet-point) {
+    .catalog-list {
+        &__product-preview {
+            min-width: 100%;
+            width: 100%;
+        }
+    }
+}
+
+@media (max-width: $mobile-point) {
+    .catalog-list {
+        &__product-preview {
+            &:nth-child(odd) {
+                border-right: 1px solid transparent;
+            }
+        }
+    }
+}

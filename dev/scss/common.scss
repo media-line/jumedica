@@ -1,0 +1,22 @@
+@import "./_reset.scss";
+@import "./_variables.scss";
+@import "./../modules/page-inner/_page-inner.scss";
+@import "./../modules/container/_container.scss";
+
+@font-face {
+  font-family: "ProximaNova";
+  font-weight: normal;
+  font-style: normal;
+  src: url("./../fonts/ProximaNova-Regular/ProximaNova-Regular.eot");
+  src: url("./../fonts/ProximaNova-Regular/ProximaNova-Regular.eot?#iefix") format("embedded-opentype"), url("./../fonts/ProximaNova-Regular/ProximaNova-Regular.woff") format("woff"), url("./../fonts/ProximaNova-Regular/ProximaNova-Regular.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "ProximaNovaBold";
+  font-weight: bold;
+  font-style: normal;
+  src: url("./../fonts/ProximaNova-Bold/ProximaNova-Bold.eot");
+  src: url("./../fonts/ProximaNova-Bold/ProximaNova-Bold.eot?#iefix") format("embedded-opentype"), url("./../fonts/ProximaNova-Bold/ProximaNova-Bold.woff") format("woff"), url("./../fonts/ProximaNova-Bold/ProximaNova-Bold.ttf") format("truetype"); }
+
+body {
+    font-family: "ProximaNova";
+}
