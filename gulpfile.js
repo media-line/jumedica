@@ -10,14 +10,16 @@ const postcss = require('gulp-postcss');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
-const babel = require('gulp-babel');
 const webpackStream = require('webpack-stream');
 const webpack = webpackStream.webpack;
 const named = require('vinyl-named');
+const watch = require('gulp-watch');
+const changed = require('gulp-changed');
+const imagemin = require('gulp-imagemin');
 
 
 gulp.task('scripts', function() {
-    return gulp.src('./dev/components/product-detail/product-detail.js')
+    return gulp.src(['./dev/components/**/*.js', './dev/js/common.js'])
         .pipe(plumber({ errorHandler: handleErrors }))
         .pipe(named())
         .pipe(webpackStream({
@@ -81,7 +83,7 @@ gulp.task('cssnano', ['postcss'],  function() {
 
 let startBuild = true;
 gulp.task('scripts', function(callback) {
-    return gulp.src('./dev/components/**/*.js')
+    return gulp.src(['./dev/components/**/*.js', './dev/js/common.js'])
     .pipe(plumber({ errorHandler: handleErrors }))
     .pipe(named())
     .pipe(webpackStream({
@@ -110,34 +112,38 @@ gulp.task('scripts', function(callback) {
     .pipe(browserSync.stream());
 });
 
-gulp.task('watch', ['postcss', 'scripts', 'assets', 'lib', 'html'], function() {
+gulp.task('watch', ['postcss', 'scripts', 'assets', 'images'], function() {
     browserSync.init({
         server: {
             baseDir: './public/'
         },
     });
-    gulp.watch('./dev/**/*.scss', ['postcss']);
-    gulp.watch(['./dev/**/*.js'], ['scripts']);
-    gulp.watch(['./dev/{fonts,images,svg}/**/*'], ['assets']);
-    gulp.watch(['./dev/*.html'], ['html']);
-    gulp.watch(['./dev/lib/*.js', './dev/lib/*.css'], ['lib']);
+    watch('./dev/**/*.scss', function () {
+        gulp.start('postcss');
+    });
+    watch(['./dev/**/*.js'], function () {
+        gulp.start('scripts');
+    });
+    watch(['./dev/{fonts,svg}/**/*', './dev/*.html', './lib/*'], function () {
+        gulp.start('assets');
+    });
+    watch(['./dev/images/**/*'], function () {
+        gulp.start('images');
+    });
 });
 
 gulp.task('assets', function() {
-    return gulp.src(['./dev/{fonts,images,svg}/**/*', './dev/*.html'])
+    return gulp.src(['./dev/{fonts,svg}/**/*', './dev/*.html', './lib/*'])
+    .pipe(changed('./public/'))
     .pipe(gulp.dest('./public/'))
     .pipe(browserSync.stream());
 });
 
-gulp.task('lib', function() {
-    return gulp.src(['./dev/lib/*.*',])
-    .pipe(gulp.dest('./public/lib/'))
-    .pipe(browserSync.stream());
-});
-
-gulp.task('html', function() {
-    return gulp.src(['./dev/*.html',])
-    .pipe(gulp.dest('./public/'))
+gulp.task('images', function() {
+    return gulp.src('./dev/images/**/*')
+    .pipe(changed('./public/images/'))
+    .pipe(imagemin())
+    .pipe(gulp.dest('./public/images/'))
     .pipe(browserSync.stream());
 });
 
