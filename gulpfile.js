@@ -16,6 +16,7 @@ const named = require('vinyl-named');
 const watch = require('gulp-watch');
 const changed = require('gulp-changed');
 const imagemin = require('gulp-imagemin');
+const cache = require('gulp-cached');
 
 
 gulp.task('scripts', function() {
@@ -54,6 +55,7 @@ gulp.task('clean:script', function() {
 gulp.task('postcss', function() {
     return gulp.src('./dev/**/*.scss')
     .pipe(plumber({ errorHandler: handleErrors }))
+    .pipe(cache('postcss'))
     .pipe(sourcemaps.init())
     .pipe(sass({
        errLogToConsole: true,
