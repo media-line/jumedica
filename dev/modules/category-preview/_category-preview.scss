@@ -1,6 +1,8 @@
 .category-preview {
     text-align: center;
     padding: 0 20px;
+    text-decoration: none;
+    color: $black;
 
     &__img {
         padding: 5px 0 20px 0;
@@ -19,16 +21,21 @@
         display: inline-block;
         transition: 0.3s;
         font-size: 18px;
-
-        &:hover {
-            color: $green;
-            text-decoration: none;
-        }
     }
 
     &__description {
         font-size: 14px;
         padding-bottom: 20px;
         line-height: 1.3;
+    }
+
+    &:hover {
+        text-decoration: none;
+        color: $black;
+
+        .category-preview__title {
+            color: $green;
+            text-decoration: none;
+        }
     }
 }

@@ -55,7 +55,6 @@ gulp.task('clean:script', function() {
 gulp.task('postcss', function() {
     return gulp.src('./dev/**/*.scss')
     .pipe(plumber({ errorHandler: handleErrors }))
-    .pipe(cache('postcss'))
     .pipe(sourcemaps.init())
     .pipe(sass({
        errLogToConsole: true,
@@ -64,6 +63,7 @@ gulp.task('postcss', function() {
     .pipe(postcss([
        autoprefixer({ browsers: ['last 2 version'] }),
     ]))
+    .pipe(cache('postcss'))
     .pipe(sourcemaps.write())
     .pipe(rename(function (path) {
         path.dirname = "";
@@ -159,3 +159,39 @@ function handleErrors() {
     gutil.beep();
     this.emit('end');
 }
+
+
+
+const template = 'jumedica';
+
+const path = {
+            'breadcrumbs': 'bitrix/breadcrumb/.default',
+            'catalog-categories': 'bitrix/catalog/catalog/bitrix/catalog.section.list/.default',
+            'catalog-list': 'bitrix/catalog.section/.default',
+            'product-detail': 'bitrix/catalog.element/.default',
+            }
+
+const pathExcludeJS = [];
+const pathExcludeCSS = [];
+
+gulp.task('compile', ['postcss', 'scripts', 'assets', 'images'], function() {
+    for (let name in path) {
+        if (pathExcludeJS.indexOf(name) == -1) {
+            gulp.src('public/js/'+name+'.js')
+            .pipe(rename('script.js'))
+            .pipe(gulp.dest('public/'+template+'/components/'+path[name]));
+        }
+
+        if (pathExcludeCSS.indexOf(name) == -1) {
+            gulp.src('public/css/'+name+'.css')
+            .pipe(rename('style.css'))
+            .pipe(gulp.dest('public/'+template+'/components/'+path[name]));
+        }
+    }
+
+    gulp.src('public/css/common.css')
+        .pipe(rename('common.css'))
+        .pipe(gulp.dest('public/'+template+'/css/'));
+
+    return true;
+});

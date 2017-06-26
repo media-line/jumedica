@@ -3,6 +3,8 @@
     display: flex;
     font-family: "ProximaNova";
     flex-wrap: wrap;
+    text-decoration: none;
+    color: $black;
 
     &__img {
         min-width: 28%;
@@ -23,11 +25,6 @@
         display: inline-block;
         transition: 0.3s;
         font-size: 18px;
-
-        &:hover {
-            color: $green;
-            text-decoration: none;
-        }
     }
 
     &__description {
@@ -54,16 +51,16 @@
 
     &__logo {
         border-radius: 100%;
-        width: 30px;
-        min-width: 30px;
-        height: 30px;
+        width: 40px;
+        min-width: 40px;
+        height: 40px;
         background-color: $white-dark;
         border: 2px solid $white;
         position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-right: 10px;
+        margin-right: 5px;
 
         img {
             max-width: 60%;
@@ -83,11 +80,22 @@
 
     &__icon-text {
         font-size: 12px;
+        line-height: 1.2;
     }
 
     &__info-block {
         min-width: 70%;
         width: 70%;
+    }
+
+    &:hover {
+        text-decoration: none;
+        color: $black;
+
+        .product-preview__title {
+            color: $green;
+            text-decoration: none;
+        }
     }
 }
 

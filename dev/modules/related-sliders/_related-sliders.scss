@@ -1,4 +1,7 @@
 .related-sliders {
+    &__main {
+        padding-bottom: 10px;
+    }
 
     &__main-slide {
         outline: none;
@@ -8,6 +11,13 @@
             max-width: 100%;
             display: inline-block !important;
         }
+    }
+
+    &__main-img {
+        height: 300px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
     }
 
     &__control-slide {
