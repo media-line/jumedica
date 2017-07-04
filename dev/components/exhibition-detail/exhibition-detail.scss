@@ -1,0 +1,9 @@
+@import "./../../scss/_variables.scss";
+@import "./../../modules/exhibition-single/_exhibition-single.scss";
+@import "./../../modules/gallery-slider/_gallery-slider.scss";
+
+
+.exhibition-detail {
+    border: 1px solid $gray;
+    padding: 10px;
+}

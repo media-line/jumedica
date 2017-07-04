@@ -1,0 +1,7 @@
+@import "./../../scss/_variables.scss";
+@import "./../../modules/news-preview/_news-preview.scss";
+
+.news-list {
+    display: flex;
+    flex-wrap: wrap;
+}

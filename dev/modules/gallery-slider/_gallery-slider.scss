@@ -1,0 +1,108 @@
+@import "./../../scss/_variables.scss";
+
+.gallery-slider {
+    padding: 0 40px;
+
+    &__slide {
+        text-align: center;
+    }
+
+    &__img-block {
+        height: 110px;
+        width: 180px;
+        position: relative;
+        border: 2px solid $gray;
+        overflow: hidden;
+        display: inline-block;
+
+        &:hover {
+            .gallery-slider__img {
+                transform: scale(1.2);
+            }
+
+            .gallery-slider__blackout {
+                opacity: 1;
+            }
+        }
+    }
+
+    &__img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-size: cover;
+        background-position: center;
+        transition: 0.3s;
+    }
+
+    &__blackout {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba($black, 0.5);
+        opacity: 0;
+        transition: 0.3s;
+    }
+
+    &__arrow {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        outline: none;
+        width: 15px;
+        height: 18px;
+        margin-top: -9px;
+        background-color: transparent;
+        transition: 0.3s;
+        border: none;
+
+        &_prev {
+            left: 14px;
+        }
+
+        &_next {
+            right: 14px;
+            transform: rotate(180deg);
+        }
+
+        &:after {
+            content: '';
+            width: 2px;
+            height: 10px;
+            background-color: $blue;
+            display: inline-block;
+            transform: rotate(45deg);
+            top: 0;
+            left: 5px;
+            position: absolute;
+            transition: 0.3s;
+        }
+
+        &:before {
+            content: '';
+            width: 2px;
+            height: 10px;
+            background-color: $blue;
+            display: inline-block;
+            transform: rotate(-45deg);
+            top: 7px;
+            left: 5px;
+            position: absolute;
+            transition: 0.3s;
+        }
+
+        &:hover {
+            &:after {
+                background-color: $green;
+            }
+
+            &:before {
+                background-color: $green;
+            }
+        }
+    }
+}

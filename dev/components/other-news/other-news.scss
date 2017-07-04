@@ -1,0 +1,11 @@
+@import "./../../scss/_variables.scss";
+@import "./../../modules/news-single/_news-single.scss";
+
+.other-news {
+    &__title {
+        font-size: 20px;
+        font-family: "ProximaNovaBold";
+        padding-bottom: 20px;
+        color: $blue-light;
+    }
+}

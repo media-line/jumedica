@@ -161,6 +161,72 @@ function handleErrors() {
 }
 
 
+gulp.task('clean:build', function() {
+    return del(['./public/*']);
+});
+
+gulp.task('scripts-build', function() {
+    return gulp.src(['./dev/components/**/*.js', './dev/js/common.js'])
+        .pipe(plumber({ errorHandler: handleErrors }))
+        .pipe(named())
+        .pipe(webpackStream({
+            module: {
+                loaders: [{
+                    test: /.js?$/,
+                    loader: 'babel-loader',
+                    exclude: /node_modules/,
+                    query: {
+                        presets: ['es2015']
+                    }
+                }]
+            },
+            plugins: [
+                new webpack.NoErrorsPlugin()
+            ],
+            output: {
+                library: ["library", "[name]"],
+            },
+        }))
+        .pipe(gulp.dest('./public/js/'));
+});
+
+gulp.task('postcss-build', function() {
+    return gulp.src('./dev/**/*.scss')
+    .pipe(plumber({ errorHandler: handleErrors }))
+    .pipe(sass({
+       errLogToConsole: true,
+       outputStyle: 'expanded'
+    }))
+    .pipe(postcss([
+       autoprefixer({ browsers: ['last 2 version'] }),
+    ]))
+    .pipe(rename(function (path) {
+        path.dirname = "";
+    }))
+    .pipe(gulp.dest('./public/css/'))
+    .pipe(browserSync.stream());
+});
+
+gulp.task('assets-build', function() {
+    return gulp.src(['./dev/{fonts,svg}/**/*', './dev/*.html', './dev/lib/*'])
+    .pipe(gulp.dest('./public/'))
+});
+
+gulp.task('images-build', function() {
+    return gulp.src('./dev/images/**/*')
+    .pipe(imagemin())
+    .pipe(gulp.dest('./public/images/'))
+});
+
+
+gulp.task('rebuild', ['clean:build'], function() {
+    gulp.start('scripts-build');
+    gulp.start('postcss-build');
+    gulp.start('assets-build');
+    gulp.start('images-build');
+    return true;
+});
+
 
 const template = 'jumedica';
 
@@ -169,12 +235,18 @@ const path = {
             'catalog-categories': 'bitrix/catalog/catalog/bitrix/catalog.section.list/.default',
             'catalog-list': 'bitrix/catalog.section/.default',
             'product-detail': 'bitrix/catalog.element/.default',
+            'news-list': 'bitrix/news/news/bitrix/news.list/.default',
+            'news-detail': 'bitrix/news/news/bitrix/news.detail/.default',
+            'other-news': 'bitrix/news.list/other-news',
+            'exhibitions-list': 'bitrix/news/exhibitions/bitrix/news.list/.default',
+            'exhibition-detail': 'bitrix/news/exhibitions/bitrix/news.detail/.default',
+            'gallery-slider': 'bitrix/news.list/gallery-slider',
             }
 
 const pathExcludeJS = [];
 const pathExcludeCSS = [];
 
-gulp.task('compile', ['postcss', 'scripts', 'assets', 'images'], function() {
+gulp.task('compile', function() {
     for (let name in path) {
         if (pathExcludeJS.indexOf(name) == -1) {
             gulp.src('public/js/'+name+'.js')
